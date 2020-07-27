@@ -1,0 +1,46 @@
+service: archivos-s3
+
+plugins:
+  - serverless-apigw-binary
+  - serverless-plugin-include-dependencies
+
+package:
+  exclude:
+    - node_modules/**
+
+custom:
+  bucket: bk-files-curso-sls
+  default_stage: dev
+  apigwBinary:
+    types:
+      - '*/*'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  profile: serverlessprofile
+  stage: ${opt:stage, self:custom.default_stage}
+  region: sa-east-1
+  #deploymentBucket:
+  #  name: ${self:custom.bucket}-${self:provider.stage}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource: ["arn:aws:s3:::${self:custom.bucket}-${self:provider.stage}/*"]
+  vpc:
+    securityGroupIds:
+      - sg-08acfa9081571646a
+    subnetIds:
+      - subnet-0761ddcdc1685ad3e
+      - subnet-046e59563e4fd25e1
+  
+functions:
+  uploadS3File:
+    handler: handler.app
+    environment:
+      bucket: ${self:custom.bucket}-${self:provider.stage}
+    events:
+      - http:
+          path: /upload
+          method: post

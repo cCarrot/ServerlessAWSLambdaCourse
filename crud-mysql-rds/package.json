@@ -1,0 +1,20 @@
+{
+  "name": "intro_serverless_lambdas_api_gateway_aws",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.18.1",
+    "querystring": "^0.2.0",
+    "serverless-offline": "^6.5.0"
+  },
+  "devDependencies": {
+    "serverless-plugin-include-dependencies": "^4.1.0"
+  }
+}
